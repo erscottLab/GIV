@@ -1,13 +1,13 @@
 ### --qualityscore 35 (DEFAULT 30)
 
-library(devtools)
-library(Rsamtools)
-library(seqinr)
-library(dplyr)
-library(tidyr)
-library(reshape2)
-library(argparse)
-library(car)
+suppressMessages(library(devtools))
+suppressMessages(library(Rsamtools))
+suppressMessages(library(seqinr))
+suppressMessages(library(dplyr))
+suppressMessages(library(tidyr))
+suppressMessages(library(reshape2))
+suppressMessages(library(argparse))
+suppressMessages(library(car))
 
 GIV_Calculator = function()
 
