@@ -124,8 +124,8 @@ bc_colsums = function(pileup_df) {
 
   GIV = ((C1v + C2v) / (C1 + C2)) / ((C1v_RC + C2v_RC)/(C1_RC + C2_RC))
 
-  giv_results = paste( c(vt, GIV, bam_path, paste(fasta_path, '\n', sep='')), sep='    ')
-  cat(giv_results, sep='    ')
+  giv_results = paste( c(vt, GIV, bam_path, paste(fasta_path, '\n', sep='')), sep=',')
+  cat(giv_results, sep=',')
   #return(GIV)
   return()
   }
