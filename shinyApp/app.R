@@ -3,14 +3,9 @@
 
 getwd()
 setwd("/Users/rebeccamolinsky/Google Drive/viral_dna_damage/code/ERS_LAB/runApp/")
-setwd("/Users/rebeccamolinsky/Google\ Drive/viral_dna_damage/ebola_data/samples/SRR1553419")
+#setwd("/Users/rebeccamolinsky/Google\ Drive/viral_dna_damage/ebola_data/samples/SRR1553419")
 
 library(shiny)
-
-
-
-
-
 
 ui <- fluidPage(
   fileInput(inputId = "bam",  label="Bam File"), ## restrict the bam file to the desired region
@@ -20,9 +15,9 @@ ui <- fluidPage(
   sliderInput(inputId = "num", label="Min Base Quality", min = 0 , max = 50 , value = 0, ticks = 5 ),
   sliderInput(inputId = "map", label="Min Map Quality", min = 0 , max = 100 , value = 10, ticks = 5),
   
-  plotOutput(outputId = "mainplot")
-  #tableOutput(outputId = "g_df")
-  #plotOutput(outputId = "logGIV")
+  plotOutput(outputId = "mainplot"),
+  tableOutput(outputId = "g_df"),
+  plotOutput(outputId = "logGIV")
   #plotOutput(outputId = "GIV")
   
 )
@@ -31,12 +26,12 @@ ui <- fluidPage(
 server <- function(input,output) {
   options(shiny.maxRequestSize=600*1024^2) 
   
-  GIV_Calculator = function()
+  GIV_Calculator <<- function()
     
   {
     
-    bam_path = input$bam$datapath #"SRR1553419_fake_a.bam"
-    fasta_path = input$fasta$datapath #"EBOV_2014_EM096.fa"
+    bam_path = input$bam$datapath     #"SRR1553419_fake_a.bam"
+    fasta_path = input$fasta$datapath  #"EBOV_2014_EM096.fa"
     
     #bam_path = "Aligned.sortedByCoord.out.bam"
     #fasta_path = "KM034562v1.fa"
@@ -244,13 +239,26 @@ server <- function(input,output) {
   }
   
   
-  
+  output$g_df <- renderTable({
+    GIV_Calculator()
+  })
   
   
   output$mainplot <- renderPlot( {
-  output$g_df <- GIV_Calculator()
-  plot(giv$vt, giv$GIV)
+  data <- GIV_Calculator()
+  plot(data$vt, data$GIV)
+    #output$g_df <- GIV_Calculator()
+    #plot(g_df$vt, g_df$GIV)
     })  #renderplot
+  
+  
+  output$logGIV <- renderPlot( {
+    data <- GIV_Calculator()
+    plot(data$vt, log(data$GIV))
+    #output$g_df <- GIV_Calculator()
+    #plot(g_df$vt, g_df$GIV)
+    
+  })  #renderplot
   
   
   #output$nuc_colsums <- renderDataTable(table(nuc_colsums))
